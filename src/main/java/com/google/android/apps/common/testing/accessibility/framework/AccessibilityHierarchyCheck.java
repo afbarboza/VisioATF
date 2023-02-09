@@ -216,4 +216,8 @@ public abstract class AccessibilityHierarchyCheck extends AccessibilityCheck {
         .getLanguage()
         .equals(Locale.ENGLISH.getLanguage());
   }
+
+  public String toStringDescription() {
+    return getClass().getSimpleName();
+  }
 }

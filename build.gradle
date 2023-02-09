@@ -78,13 +78,13 @@ publishing {
     publications {
         mavenAar(MavenPublication) {
             groupId 'com.google.android.apps.common.testing.accessibility.framework'
-            artifactId 'accessibility-test-framework'
+            artifactId 'atf-visio-aux'
             version '4.0.0'
             from components.android
             artifact sourceJar
             artifact javadocJar
             pom {
-                name = 'Accessibility Test Framework'
+                name = 'ATF-VisioAux'
                 description = 'Library used to test for common accessibility issues.'
                 url = 'https://github.com/google/Accessibility-Test-Framework-for-Android'
                 licenses {

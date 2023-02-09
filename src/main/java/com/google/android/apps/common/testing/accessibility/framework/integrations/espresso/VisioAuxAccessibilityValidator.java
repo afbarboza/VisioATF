@@ -55,9 +55,9 @@ import org.hamcrest.Matcher;
  * checks with the options specified in this object.
  */
 @SuppressWarnings("deprecation")
-public final class AccessibilityValidator {
+public final class VisioAuxAccessibilityValidator {
 
-  private static final String TAG = "AccessibilityValidator";
+  private static final String TAG = "VisioAuxAccessibilityValidator";
   private AccessibilityCheckPreset preset = AccessibilityCheckPreset.LATEST;
   private boolean runChecksFromRootView = false;
 
@@ -80,7 +80,7 @@ public final class AccessibilityValidator {
   private @Nullable Matcher<? super AccessibilityViewCheckResult> suppressingMatcher = null;
   private final List<AccessibilityCheckListener> checkListeners = new ArrayList<>();
 
-  public AccessibilityValidator() {
+  public VisioAuxAccessibilityValidator() {
   }
 
   /**
@@ -115,7 +115,7 @@ public final class AccessibilityValidator {
    * @return this
    */
   @CanIgnoreReturnValue
-  public AccessibilityValidator setCheckPreset(AccessibilityCheckPreset preset) {
+  public VisioAuxAccessibilityValidator setCheckPreset(AccessibilityCheckPreset preset) {
     this.preset = preset;
     return this;
   }
@@ -126,7 +126,7 @@ public final class AccessibilityValidator {
    * @return this
    */
   @CanIgnoreReturnValue
-  public AccessibilityValidator setRunChecksFromRootView(boolean runChecksFromRootView) {
+  public VisioAuxAccessibilityValidator setRunChecksFromRootView(boolean runChecksFromRootView) {
     this.runChecksFromRootView = runChecksFromRootView;
     return this;
   }
@@ -141,7 +141,7 @@ public final class AccessibilityValidator {
    * @see #setSaveImages(boolean, boolean)
    */
   @CanIgnoreReturnValue
-  public AccessibilityValidator setCaptureScreenshots(boolean capture) {
+  public VisioAuxAccessibilityValidator setCaptureScreenshots(boolean capture) {
     captureScreenshots = capture;
     return this;
   }
@@ -153,7 +153,7 @@ public final class AccessibilityValidator {
    *
    * <p>This is syntactic sugar for {@link #setSaveImages(boolean, boolean)}.
    */
-  public AccessibilityValidator setSaveImages(boolean save) {
+  public VisioAuxAccessibilityValidator setSaveImages(boolean save) {
     return setSaveImages(save, save);
   }
 
@@ -169,7 +169,7 @@ public final class AccessibilityValidator {
    *     results that cause an exception to be thrown.
    */
   @CanIgnoreReturnValue
-  public AccessibilityValidator setSaveImages(boolean saveScreenshots, boolean saveViewImages) {
+  public VisioAuxAccessibilityValidator setSaveImages(boolean saveScreenshots, boolean saveViewImages) {
     this.saveScreenshots = saveScreenshots;
     this.saveViewImages = saveViewImages;
     return this;
@@ -184,7 +184,7 @@ public final class AccessibilityValidator {
    * @return this
    */
   @CanIgnoreReturnValue
-  public AccessibilityValidator setSuppressingResultMatcher(
+  public VisioAuxAccessibilityValidator setSuppressingResultMatcher(
       @Nullable Matcher<? super AccessibilityViewCheckResult> resultMatcher) {
       suppressingMatcher = resultMatcher;
     return this;
@@ -198,9 +198,8 @@ public final class AccessibilityValidator {
    * @deprecated Use {@link #setThrowExceptionFor}
    */
   @Deprecated
-  public AccessibilityValidator setThrowExceptionForErrors(boolean throwExceptionForErrors) {
-    return setThrowExceptionFor(
-        throwExceptionForErrors ? AccessibilityCheckResultType.ERROR : null);
+  public VisioAuxAccessibilityValidator setThrowExceptionForErrors(boolean throwExceptionForErrors) {
+    return setThrowExceptionFor(null);
   }
 
   /**
@@ -221,7 +220,7 @@ public final class AccessibilityValidator {
    * @return this
    */
   @CanIgnoreReturnValue
-  public AccessibilityValidator setThrowExceptionFor(
+  public VisioAuxAccessibilityValidator setThrowExceptionFor(
       @Nullable AccessibilityCheckResultType throwFor) {
     checkArgument(
         (throwFor == AccessibilityCheckResultType.ERROR)
@@ -241,7 +240,7 @@ public final class AccessibilityValidator {
    * @return this
    */
   @CanIgnoreReturnValue
-  public AccessibilityValidator setResultDescriptor(
+  public VisioAuxAccessibilityValidator setResultDescriptor(
       AccessibilityCheckResultDescriptor resultDescriptor) {
     this.resultDescriptor = checkNotNull(resultDescriptor);
     return this;
@@ -255,7 +254,7 @@ public final class AccessibilityValidator {
    * @return this
    */
   @CanIgnoreReturnValue
-  public AccessibilityValidator addCheckListener(AccessibilityCheckListener listener) {
+  public VisioAuxAccessibilityValidator addCheckListener(AccessibilityCheckListener listener) {
     checkNotNull(listener);
     checkListeners.add(listener);
     return this;
@@ -449,18 +448,30 @@ public final class AccessibilityValidator {
       }
     }
     if (!severeResults.isEmpty()) {
-      throw new AccessibilityViewCheckException(severeResults, resultDescriptor);
+      // throw new AccessibilityViewCheckException(severeResults, resultDescriptor);
     }
 
+    VisioAuxLogReport report = VisioAuxLogReport.getInstance();
     for (AccessibilityViewCheckResult result : infos) {
-      Log.i(TAG, describeResult(result));
+      String tmpInfo = describeResult(result);
+      Log.i(TAG, tmpInfo);
+      report.addLogMessage(tmpInfo);
+      report.addLogCheck(result);
     }
+
     for (AccessibilityViewCheckResult result : warnings) {
-      Log.w(TAG, describeResult(result));
+      String tmpWarning = describeResult(result);
+      Log.w(TAG, tmpWarning);
+      report.addLogMessage(tmpWarning);
+      report.addLogCheck(result);
     }
     for (AccessibilityViewCheckResult result : errors) {
-      Log.e(TAG, describeResult(result));
+      String tmpError = describeResult(result);
+      Log.e(TAG, tmpError);
+      report.addLogMessage(tmpError);
+      report.addLogCheck(result);
     }
+
     return processedResults;
   }
 

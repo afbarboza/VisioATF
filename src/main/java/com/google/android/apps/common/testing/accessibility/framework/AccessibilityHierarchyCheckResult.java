@@ -304,7 +304,7 @@ public class AccessibilityHierarchyCheckResult extends AccessibilityCheckResult 
   }
 
   @SuppressWarnings("unchecked") // all Hierarchy results have Hierarchy check classes
-  private AccessibilityHierarchyCheck getCheck() {
+  public AccessibilityHierarchyCheck getCheck() {
     AccessibilityHierarchyCheck check =
         AccessibilityCheckPreset.getHierarchyCheckForClass(
             (Class<? extends AccessibilityHierarchyCheck>) getSourceCheckClass());
