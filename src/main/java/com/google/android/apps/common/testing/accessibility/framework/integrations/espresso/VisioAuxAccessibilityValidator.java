@@ -456,7 +456,7 @@ public final class VisioAuxAccessibilityValidator {
       String tmpInfo = describeResult(result);
       Log.i(TAG, tmpInfo);
       report.addLogMessage(tmpInfo);
-      report.addLogCheck(result);
+      VisioAuxLogReport.addLogCheck(result);
     }
 
     for (AccessibilityViewCheckResult result : warnings) {
