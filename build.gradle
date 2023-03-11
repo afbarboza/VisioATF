@@ -79,7 +79,7 @@ publishing {
         mavenAar(MavenPublication) {
             groupId 'com.google.android.apps.common.testing.accessibility.framework'
             artifactId 'atf-visio-aux'
-            version '4.0.0'
+            version '5.0.0'
             from components.android
             artifact sourceJar
             artifact javadocJar
