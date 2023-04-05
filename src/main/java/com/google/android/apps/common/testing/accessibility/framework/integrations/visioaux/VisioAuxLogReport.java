@@ -1,4 +1,4 @@
-package com.google.android.apps.common.testing.accessibility.framework.integrations.espresso;
+package com.google.android.apps.common.testing.accessibility.framework.integrations.visioaux;
 
 import com.google.android.apps.common.testing.accessibility.framework.AccessibilityHierarchyCheck;
 import com.google.android.apps.common.testing.accessibility.framework.AccessibilityViewCheckResult;
@@ -6,9 +6,9 @@ import com.google.android.apps.common.testing.accessibility.framework.Accessibil
 import java.util.ArrayList;
 
 public class VisioAuxLogReport {
-    private static ArrayList<String> logMessage;
+    private ArrayList<String> logMessage;
     private static VisioAuxLogReport instance = null;
-    private static ArrayList<AccessibilityHierarchyCheck> checks = null;
+    private ArrayList<AccessibilityHierarchyCheck> checks = null;
 
     private VisioAuxLogReport() {
         logMessage = new ArrayList<>();
@@ -23,21 +23,26 @@ public class VisioAuxLogReport {
         return instance;
     }
 
-    public static ArrayList<String> getLogMessage() {
-        return logMessage;
-    }
-
-    public static ArrayList<AccessibilityHierarchyCheck> getLogChecks() {
-        return checks;
-    }
-
-    public static void addLogMessage(String log) {
+    protected void addLogMessage(String log) {
         logMessage.add(log);
     }
 
-    public static void addLogCheck(AccessibilityViewCheckResult result) {
+    public ArrayList<String> getLogMessage() {
+        return logMessage;
+    }
+
+    protected void addLogCheck(AccessibilityViewCheckResult result) {
         checks.add(result
                 .getAccessibilityHierarchyCheckResult()
                 .getCheck());
+    }
+
+    public ArrayList<AccessibilityHierarchyCheck> getLogChecks() {
+        return checks;
+    }
+
+    public void clearLogs() {
+        checks.clear();
+        logMessage.clear();
     }
 }

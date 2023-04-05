@@ -42,14 +42,8 @@ public final class AccessibilityCheckPresetAndroid {
   public static ImmutableSet<AccessibilityViewHierarchyCheck> getViewChecksForPreset(
       AccessibilityCheckPreset preset) {
 
-    // No View-based checks were added in version 3.0. The AccessibilityHierarchyChecks that were
-    // added in 3.0 were did not make it here until 3.1.
-    if (preset == AccessibilityCheckPreset.VERSION_3_0_CHECKS) {
-      preset = AccessibilityCheckPreset.VERSION_2_0_CHECKS;
-    }
-
     ImmutableSet<AccessibilityHierarchyCheck> checks =
-        AccessibilityCheckPreset.getAccessibilityHierarchyChecksForPreset(preset);
+        AccessibilityCheckPreset.getAccessibilityHierarchyChecksForPreset(AccessibilityCheckPreset.VERSION_4_0_CHECKS);
 
     // ClassNameCheck was available in
     // AccessibilityCheckPreset.getAccessibilityHierarchyChecksForPreset from version 3.0, but not
@@ -69,48 +63,6 @@ public final class AccessibilityCheckPresetAndroid {
       viewChecks.add(getDelegatedCheck(check.getClass()));
     }
     return viewChecks.build();
-  }
-
-  /**
-   * Retrieve checks for {@code AccessibilityEvent}s based on a desired preset.
-   *
-   * @param preset The preset of interest
-   * @return A set of all checks for {@code AccessibilityEvent}s with scopes for the preset
-   */
-  public static ImmutableSet<AccessibilityEventCheck> getEventChecksForPreset(
-      AccessibilityCheckPreset preset) {
-    ImmutableSet.Builder<AccessibilityEventCheck> checks = ImmutableSet.builder();
-    if ((preset == AccessibilityCheckPreset.NO_CHECKS)
-        || (preset == AccessibilityCheckPreset.VERSION_1_0_CHECKS)) {
-      return checks.build();
-    }
-
-    /* Checks included in version 2.0 */
-    checks.add(new AnnouncementEventCheck());
-    if (preset == AccessibilityCheckPreset.VERSION_2_0_CHECKS) {
-      return checks.build();
-    }
-
-    /* No event-based checks added in version 3.0, 3.1 or 4.0 */
-    if ((preset == AccessibilityCheckPreset.VERSION_3_0_CHECKS)
-        || (preset == AccessibilityCheckPreset.VERSION_3_1_CHECKS)
-        || (preset == AccessibilityCheckPreset.VERSION_4_0_CHECKS)) {
-      return checks.build();
-    }
-
-    /* Checks added since last release */
-    if (preset == AccessibilityCheckPreset.LATEST) {
-      return checks.build();
-    }
-    if (preset == AccessibilityCheckPreset.PRERELEASE) {
-      return checks.build();
-    }
-
-    /*
-     * Throw an exception if we didn't handle a preset. This code should be unreachable, but it
-     * makes writing a test for unhandled presets trivial.
-     */
-    throw new IllegalArgumentException();
   }
 
   private static AccessibilityViewHierarchyCheck getDelegatedCheck(

@@ -1,4 +1,4 @@
-package com.google.android.apps.common.testing.accessibility.framework.integrations.espresso;
+package com.google.android.apps.common.testing.accessibility.framework.integrations.visioaux;
 
 import static com.google.common.base.Preconditions.checkArgument;
 

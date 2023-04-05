@@ -114,10 +114,6 @@ public enum AccessibilityCheckPreset {
       AccessibilityCheckPreset preset) {
     ImmutableSet.Builder<AccessibilityHierarchyCheck> checks = ImmutableSet.builder();
 
-    if (preset == NO_CHECKS) {
-      return checks.build();
-    }
-
     /*
      * AccessibilityHierarchy was added after 2.0's release, but the checks that match those for
      * Views in previous versions should be returned for the same preset to support migrating from
@@ -129,53 +125,25 @@ public enum AccessibilityCheckPreset {
     checks.add(CLASS_TO_HIERARCHY_CHECK.get(TouchTargetSizeCheck.class));
     checks.add(CLASS_TO_HIERARCHY_CHECK.get(DuplicateSpeakableTextCheck.class));
     checks.add(CLASS_TO_HIERARCHY_CHECK.get(TextContrastCheck.class));
-    if (preset == VERSION_1_0_CHECKS) {
-      return checks.build();
-    }
 
     /* Checks included in version 2.0 */
     checks.add(CLASS_TO_HIERARCHY_CHECK.get(ClickableSpanCheck.class));
     checks.add(CLASS_TO_HIERARCHY_CHECK.get(DuplicateClickableBoundsCheck.class));
     checks.add(CLASS_TO_HIERARCHY_CHECK.get(RedundantDescriptionCheck.class));
-    if (preset == VERSION_2_0_CHECKS) {
-      return checks.build();
-    }
 
     /* Checks included in version 3.0 */
     checks.add(CLASS_TO_HIERARCHY_CHECK.get(ImageContrastCheck.class));
     checks.add(CLASS_TO_HIERARCHY_CHECK.get(ClassNameCheck.class));
     checks.add(CLASS_TO_HIERARCHY_CHECK.get(TraversalOrderCheck.class));
-    if (preset == VERSION_3_0_CHECKS) {
-      return checks.build();
-    }
 
     /* Checks included in version 3.1 */
     checks.add(CLASS_TO_HIERARCHY_CHECK.get(LinkPurposeUnclearCheck.class));
-    if (preset == VERSION_3_1_CHECKS) {
-      return checks.build();
-    }
 
     /* Checks included in version 4.0 */
     checks.add(CLASS_TO_HIERARCHY_CHECK.get(TextSizeCheck.class));
-    if (preset == VERSION_4_0_CHECKS) {
-      return checks.build();
-    }
-
-    /* Checks added since last release */
-    if (preset == LATEST) {
-      return checks.build();
-    }
 
     checks.add(CLASS_TO_HIERARCHY_CHECK.get(UnexposedTextCheck.class));
-    if (preset == PRERELEASE) {
-      return checks.build();
-    }
-
-    /*
-     * Throw an exception if we didn't handle a preset. This code should be unreachable, but it
-     * makes writing a test for unhandled presets trivial.
-     */
-    throw new IllegalArgumentException();
+    return checks.build();
   }
 
   private static ImmutableMap<String, AccessibilityHierarchyCheck> mapClassNameToInstance(
