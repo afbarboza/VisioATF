@@ -42,14 +42,8 @@ public final class AccessibilityCheckPresetAndroid {
   public static ImmutableSet<AccessibilityViewHierarchyCheck> getViewChecksForPreset(
       AccessibilityCheckPreset preset) {
 
-    // No View-based checks were added in version 3.0. The AccessibilityHierarchyChecks that were
-    // added in 3.0 were did not make it here until 3.1.
-    if (preset == AccessibilityCheckPreset.VERSION_3_0_CHECKS) {
-      preset = AccessibilityCheckPreset.VERSION_2_0_CHECKS;
-    }
-
     ImmutableSet<AccessibilityHierarchyCheck> checks =
-        AccessibilityCheckPreset.getAccessibilityHierarchyChecksForPreset(preset);
+        AccessibilityCheckPreset.getAccessibilityHierarchyChecksForPreset(AccessibilityCheckPreset.VERSION_4_0_CHECKS);
 
     // ClassNameCheck was available in
     // AccessibilityCheckPreset.getAccessibilityHierarchyChecksForPreset from version 3.0, but not

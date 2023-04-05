@@ -102,7 +102,7 @@ public final class VisioAuxAccessibilityValidator {
    */
   public final List<AccessibilityViewCheckResult> checkAndReturnResults(View view) {
     if (view != null) {
-      View viewToCheck = runChecksFromRootView ? view.getRootView() : view;
+      View viewToCheck = view.getRootView();
       return runAccessibilityChecks(viewToCheck);
     }
     return ImmutableList.<AccessibilityViewCheckResult>of();
@@ -268,15 +268,13 @@ public final class VisioAuxAccessibilityValidator {
    */
   private ImmutableList<AccessibilityViewCheckResult> runAccessibilityChecks(View view) {
     Parameters parameters = new Parameters();
-    if (captureScreenshots) {
-      Bitmap screenshot = createPseudoScreenshot(view.getRootView());
-      if (screenshot != null) {
-        parameters.putScreenCapture(new BitmapImage(screenshot));
-        if (!Boolean.FALSE.equals(saveViewImages)) {
-          parameters.setSaveViewImages(true);
-        }
-        screenshotsCaptured++;
+    Bitmap screenshot = createPseudoScreenshot(view.getRootView());
+    if (screenshot != null) {
+      parameters.putScreenCapture(new BitmapImage(screenshot));
+      if (!Boolean.FALSE.equals(saveViewImages)) {
+        parameters.setSaveViewImages(true);
       }
+      screenshotsCaptured++;
     }
 
     return processResults(
