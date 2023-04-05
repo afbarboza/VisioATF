@@ -11,7 +11,7 @@
  * or implied. See the License for the specific language governing permissions and limitations under
  * the License.
  */
-package com.google.android.apps.common.testing.accessibility.framework.integrations.espresso;
+package com.google.android.apps.common.testing.accessibility.framework.integrations.visioaux;
 
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
@@ -445,27 +445,21 @@ public final class VisioAuxAccessibilityValidator {
         saveResultImages(context, results);
       }
     }
-    if (!severeResults.isEmpty()) {
-      // throw new AccessibilityViewCheckException(severeResults, resultDescriptor);
-    }
 
     VisioAuxLogReport report = VisioAuxLogReport.getInstance();
     for (AccessibilityViewCheckResult result : infos) {
       String tmpInfo = describeResult(result);
-      Log.i(TAG, tmpInfo);
       report.addLogMessage(tmpInfo);
-      VisioAuxLogReport.addLogCheck(result);
+      report.addLogCheck(result);
     }
 
     for (AccessibilityViewCheckResult result : warnings) {
       String tmpWarning = describeResult(result);
-      Log.w(TAG, tmpWarning);
       report.addLogMessage(tmpWarning);
       report.addLogCheck(result);
     }
     for (AccessibilityViewCheckResult result : errors) {
       String tmpError = describeResult(result);
-      Log.e(TAG, tmpError);
       report.addLogMessage(tmpError);
       report.addLogCheck(result);
     }
