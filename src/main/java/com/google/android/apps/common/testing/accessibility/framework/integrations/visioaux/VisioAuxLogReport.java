@@ -1,18 +1,13 @@
 package com.google.android.apps.common.testing.accessibility.framework.integrations.visioaux;
 
-import com.google.android.apps.common.testing.accessibility.framework.AccessibilityHierarchyCheck;
-import com.google.android.apps.common.testing.accessibility.framework.AccessibilityViewCheckResult;
-
 import java.util.ArrayList;
 
 public class VisioAuxLogReport {
-    private ArrayList<String> logMessage;
     private static VisioAuxLogReport instance = null;
-    private ArrayList<AccessibilityHierarchyCheck> checks = null;
+    private ArrayList<ViolationModel> reports;
 
     private VisioAuxLogReport() {
-        logMessage = new ArrayList<>();
-        checks = new ArrayList<>();
+        reports = new ArrayList<>();
     }
 
     public static VisioAuxLogReport getInstance() {
@@ -23,26 +18,15 @@ public class VisioAuxLogReport {
         return instance;
     }
 
-    protected void addLogMessage(String log) {
-        logMessage.add(log);
+    protected void addReport(ViolationModel violationModel) {
+        this.reports.add(violationModel);
     }
 
-    public ArrayList<String> getLogMessage() {
-        return logMessage;
+    public ArrayList<ViolationModel> getReports() {
+        return this.reports;
     }
 
-    protected void addLogCheck(AccessibilityViewCheckResult result) {
-        checks.add(result
-                .getAccessibilityHierarchyCheckResult()
-                .getCheck());
-    }
-
-    public ArrayList<AccessibilityHierarchyCheck> getLogChecks() {
-        return checks;
-    }
-
-    public void clearLogs() {
-        checks.clear();
-        logMessage.clear();
+    public void clearAllReports() {
+        reports.clear();
     }
 }

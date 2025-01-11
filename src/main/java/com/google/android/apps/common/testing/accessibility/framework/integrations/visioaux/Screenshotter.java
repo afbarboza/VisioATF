@@ -34,8 +34,10 @@ class Screenshotter {
    * content of the display below and to the right of the View are of no interest.
    */
   public Bitmap getScreenshot(View view) {
-    checkArgument(view.getWidth() > 0, "View width must be >0");
-    checkArgument(view.getHeight() > 0, "View height must be >0");
+    if (view.getWidth() <= 0 || view.getHeight() <= 0) {
+      return null;
+    }
+
     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
       return getScreenShotPPlus(view);
     } else {

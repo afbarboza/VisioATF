@@ -4,7 +4,7 @@ buildscript {
         google()
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:3.5.4'
+        classpath 'com.android.tools.build:gradle:7.4.2'
         classpath 'com.google.protobuf:protobuf-gradle-plugin:0.8.14'
         classpath 'digital.wup:android-maven-publish:3.6.3'
     }
@@ -19,13 +19,15 @@ allprojects {
 }
 
 apply plugin: 'com.android.library'
+apply from: './publishLocal.gradle'
 
 android {
-    compileSdkVersion 31
+    compileSdkVersion 34
     buildToolsVersion '29.0.3'
     defaultConfig {
-        minSdkVersion 14
-        targetSdkVersion 31
+        minSdkVersion 19
+        targetSdkVersion 34
+        multiDexEnabled true
     }
     lintOptions {
         abortOnError false
@@ -45,67 +47,8 @@ protobuf {
     generateProtoTasks {
         all().each { task ->
             task.builtins {
-            java {
-                option "lite"
-            }
-        }
-    }
-  }
-}
-
-// Creates the source jar for release to maven central.
-task sourceJar(type: Jar) {
-    classifier "sources"
-    from android.sourceSets.main.java.srcDirs
-}
-
-// Creates javadoc for the project.
-task javadoc(type: Javadoc) {
-    source = android.sourceSets.main.java.srcDirs
-    failOnError false // Currently cannot import android sdk javadoc references so we ignore errors.
-}
-
-// Creates the source javadoc jar for release to maven central.
-task javadocJar(type: Jar) {
-    classifier "javadoc"
-    from javadoc
-}
-apply plugin: 'digital.wup.android-maven-publish'
-apply plugin: 'maven-publish'
-
-// Creates the artifacts for release to maven central.
-publishing {
-    publications {
-        mavenAar(MavenPublication) {
-            groupId 'com.google.android.apps.common.testing.accessibility.framework'
-            artifactId 'atf-visio-aux'
-            version '5.0.1'
-            from components.android
-            artifact sourceJar
-            artifact javadocJar
-            pom {
-                name = 'ATF-VisioAux'
-                description = 'Library used to test for common accessibility issues.'
-                url = 'https://github.com/google/Accessibility-Test-Framework-for-Android'
-                licenses {
-                    license {
-                        name = 'The Apache License, Version 2.0'
-                        url = 'http://www.apache.org/licenses/LICENSE-2.0.txt'
-                        distribution = 'repo'
-                    }
-                }
-                developers {
-                    developer {
-                        name = 'Casey Burkhardt'
-                        email = 'caseyburkhardt@google.com'
-                        organization = 'Google LLC'
-                        organizationUrl = 'https://www.google.com'
-                    }
-                }
-                scm {
-                    connection = 'scm:git:git@github.com:google/Accessibility-Test-Framework-for-Android.git'
-                    developerConnection = 'scm:git:git@github.com:google/Accessibility-Test-Framework-for-Android.git'
-                    url = 'https://github.com/google/Accessibility-Test-Framework-for-Android'
+                java {
+                    option "lite"
                 }
             }
         }
@@ -113,19 +56,24 @@ publishing {
 }
 
 dependencies {
-    implementation 'androidx.core:core:1.8.0'
-    implementation 'androidx.test.services:storage:1.4.1'
-    implementation 'com.google.android.material:material:1.2.0-rc01'
-    implementation 'com.google.errorprone:error_prone_annotations:2.14.0'
-    implementation 'com.google.guava:guava:31.0.1-android'
+    implementation 'androidx.core:core:1.13.1'
+    implementation 'androidx.test.services:storage:1.5.0'
+    implementation 'androidx.test.espresso:espresso-core:3.6.1'
+    implementation 'androidx.test:runner:1.6.1'
+    implementation 'androidx.test:rules:1.6.1'
+    implementation 'com.google.android.material:material:1.12.0'
+    implementation 'com.google.errorprone:error_prone_annotations:2.23.0'
+    implementation 'com.google.guava:guava:33.0.0-jre'
     implementation 'com.google.protobuf:protobuf-javalite:3.19.1'
     // use same version of checker framework used in guava android,
     // to avoid duplicate class and dexing errors
     // see https://github.com/android/android-test/issues/861
-    implementation 'org.checkerframework:checker-qual:3.22.1'
+    implementation 'org.checkerframework:checker-qual:3.41.0'
     implementation 'org.hamcrest:hamcrest-core:2.2'
     implementation 'org.hamcrest:hamcrest-library:2.2'
     implementation 'org.jsoup:jsoup:1.15.1'
+    compileOnly 'com.google.auto.value:auto-value-annotations:1.10.4'
+    annotationProcessor 'com.google.auto.value:auto-value:1.6.2'
 }
 
 clean {

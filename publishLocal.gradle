@@ -1,0 +1,89 @@
+apply plugin: 'maven-publish'
+
+task sourceJar(type: Jar) {
+    from android.sourceSets.main.java.srcDirs
+    classifier "sources"
+}
+
+project.afterEvaluate {
+    publishToMavenLocal {
+
+        def groupId = 'org.usp.barboza.visioaux'
+        def artifactId = 'visio-atf'
+        def versionName = "0.0.4"
+        def debugSuffix = "-debug"
+        def releaseSuffix = "-release"
+        publishing {
+            publications {
+                LibraryRelease(MavenPublication) {
+                    from components.release
+                    artifact(sourceJar)
+                    setGroupId groupId
+                    setArtifactId artifactId
+                    version versionName + releaseSuffix
+
+                    pom {
+                        name = 'ATF-VisioAux'
+                        description = 'Library used to check accessibility issues during runtime'
+                        url = 'https://github.com/google/Accessibility-Test-Framework-for-Android'
+                        licenses {
+                            license {
+                                name = 'The Apache License, Version 2.0'
+                                url = 'http://www.apache.org/licenses/LICENSE-2.0.txt'
+                                distribution = 'repo'
+                            }
+                        }
+                        developers {
+                            developer {
+                                name = 'Casey Burkhardt'
+                                email = 'caseyburkhardt@google.com'
+                                organization = 'Google LLC'
+                                organizationUrl = 'https://www.google.com'
+                            }
+                            developer {
+                                name = 'Alex Barboza'
+                                email = 'alex.barboza@usp.br'
+                                organization = 'USP'
+                                organizationUrl = 'https://www5.usp.br/'
+                            }
+                        }
+                        scm {
+                            url = 'https://github.com/afbarboza/VisioATF.git'
+                        }
+                    }
+                }
+                LibraryDebug(MavenPublication) {
+                    from components.debug
+                    artifact(sourceJar)
+                    setGroupId groupId
+                    setArtifactId artifactId
+                    version versionName + debugSuffix
+                }
+            }
+            publications.all {
+                pom.withXml {
+                    asNode().dependencies.'*'
+                            .findAll() {
+                                it.scope.text() == 'runtime' &&
+                                        project.configurations.implementation.allDependencies.find {
+                                            dep -> dep.name == it.artifactId.text()
+                                        }
+                            }.each { it.scope*.value = 'compile'}
+                }
+            }
+        }
+
+        doLast {
+            def prettyPrint = {
+                1.upto(100, { print "=" })
+                println()
+            }
+            println()
+            prettyPrint()
+            println "> PUBLICATION FINISHED"
+            println "> Artifact RELEASE: " + groupId + ":" + artifactId +  ":" + versionName + releaseSuffix
+            println "> Artifact DEBUG: " + groupId + ":" + artifactId +  ":" + versionName + debugSuffix
+            prettyPrint()
+        }
+    }
+}

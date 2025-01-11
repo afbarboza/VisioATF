@@ -30,6 +30,7 @@ import com.google.android.apps.common.testing.accessibility.framework.Accessibil
 import com.google.android.apps.common.testing.accessibility.framework.AccessibilityCheckResult.AccessibilityCheckResultType;
 import com.google.android.apps.common.testing.accessibility.framework.AccessibilityCheckResultDescriptor;
 import com.google.android.apps.common.testing.accessibility.framework.AccessibilityCheckResultUtils;
+import com.google.android.apps.common.testing.accessibility.framework.AccessibilityHierarchyCheck;
 import com.google.android.apps.common.testing.accessibility.framework.AccessibilityViewCheckResult;
 import com.google.android.apps.common.testing.accessibility.framework.AccessibilityViewHierarchyCheck;
 import com.google.android.apps.common.testing.accessibility.framework.Parameters;
@@ -449,19 +450,29 @@ public final class VisioAuxAccessibilityValidator {
     VisioAuxLogReport report = VisioAuxLogReport.getInstance();
     for (AccessibilityViewCheckResult result : infos) {
       String tmpInfo = describeResult(result);
-      report.addLogMessage(tmpInfo);
-      report.addLogCheck(result);
+      AccessibilityHierarchyCheck tmpCheck = result
+              .getAccessibilityHierarchyCheckResult()
+              .getCheck();
+      ViolationModel violationModel = new ViolationModel(tmpCheck, tmpInfo);
+      report.addReport(violationModel);
     }
 
     for (AccessibilityViewCheckResult result : warnings) {
       String tmpWarning = describeResult(result);
-      report.addLogMessage(tmpWarning);
-      report.addLogCheck(result);
+      AccessibilityHierarchyCheck tmpCheck = result
+              .getAccessibilityHierarchyCheckResult()
+              .getCheck();
+      ViolationModel violationModel = new ViolationModel(tmpCheck, tmpWarning);
+      report.addReport(violationModel);
     }
+
     for (AccessibilityViewCheckResult result : errors) {
       String tmpError = describeResult(result);
-      report.addLogMessage(tmpError);
-      report.addLogCheck(result);
+      AccessibilityHierarchyCheck tmpCheck = result
+              .getAccessibilityHierarchyCheckResult()
+              .getCheck();
+      ViolationModel violationModel = new ViolationModel(tmpCheck, tmpError);
+      report.addReport(violationModel);
     }
 
     return processedResults;
