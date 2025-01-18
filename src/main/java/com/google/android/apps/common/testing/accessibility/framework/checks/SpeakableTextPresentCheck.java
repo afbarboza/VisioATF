@@ -128,7 +128,7 @@ public class SpeakableTextPresentCheck extends AccessibilityHierarchyCheck {
 
   @Override
   public String getWcagUrl() {
-    return "https://www.w3.org/WAI/WCAG21/Understanding/non-text-content";
+    return "https://www.w3.org/TR/WCAG22/#label-in-name";
   }
 
   @Override
