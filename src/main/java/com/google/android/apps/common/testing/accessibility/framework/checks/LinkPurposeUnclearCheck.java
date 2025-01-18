@@ -126,6 +126,16 @@ public class LinkPurposeUnclearCheck extends AccessibilityHierarchyCheck {
     return results;
   }
 
+  @Override
+  public String getConformanceLevel() {
+    return "A";
+  }
+
+  @Override
+  public String getWcagUrl() {
+    return "https://www.w3.org/TR/WCAG21/#link-purpose-in-context";
+  }
+
   /** Indicates whether all of the word characters are in the form of stopwords. */
   @VisibleForTesting
   static boolean hasOnlyStopwords(CharSequence linkText) {

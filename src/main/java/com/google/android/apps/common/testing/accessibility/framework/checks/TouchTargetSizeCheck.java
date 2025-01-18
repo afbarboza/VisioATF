@@ -472,6 +472,16 @@ public class TouchTargetSizeCheck extends AccessibilityHierarchyCheck {
   }
 
   @Override
+  public String getConformanceLevel() {
+    return "AAA";
+  }
+
+  @Override
+  public String getWcagUrl() {
+    return "https://www.w3.org/TR/WCAG21/#target-size";
+  }
+
+  @Override
   public String getTitleMessage(Locale locale) {
     return StringManager.getString(locale, "check_title_touch_target_size");
   }

@@ -207,6 +207,16 @@ public class UnexposedTextCheck extends AccessibilityHierarchyCheck {
     return results;
   }
 
+  @Override
+  public String getConformanceLevel() {
+    return "A";
+  }
+
+  @Override
+  public String getWcagUrl() {
+    return "https://www.w3.org/TR/WCAG21/#non-text-content";
+  }
+
   /**
    * @return {@code true} if at least one view in {@code views} has a non-empty text character
    *     locations array, {@code false} otherwise.

@@ -132,6 +132,16 @@ public class DuplicateClickableBoundsCheck extends AccessibilityHierarchyCheck {
   }
 
   @Override
+  public String getConformanceLevel() {
+    return "AA";
+  }
+
+  @Override
+  public String getWcagUrl() {
+    return "https://www.w3.org/WAI/WCAG22/Understanding/target-size-minimum.html";
+  }
+
+  @Override
   public String getMessageForResult(Locale locale, AccessibilityHierarchyCheckResult result) {
     int resultId = result.getResultId();
     if ((resultId == RESULT_ID_SAME_BOUNDS) || (resultId == RESULT_ID_VIEW_BOUNDS)) {
