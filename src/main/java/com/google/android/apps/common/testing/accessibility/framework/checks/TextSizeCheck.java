@@ -298,6 +298,16 @@ public class TextSizeCheck extends AccessibilityHierarchyCheck {
   }
 
   @Override
+  public String getConformanceLevel() {
+    return "AA";
+  }
+
+  @Override
+  public String getWcagUrl() {
+    return "https://www.w3.org/TR/WCAG21/#resize-text";
+  }
+
+  @Override
   public String getMessageForResultData(
       Locale locale, int resultId, @Nullable ResultMetadata metadata) {
     String generated = generateMessageForResultId(locale, resultId, metadata);

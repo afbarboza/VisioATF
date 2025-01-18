@@ -169,6 +169,16 @@ public class RedundantDescriptionCheck extends AccessibilityHierarchyCheck {
     return results;
   }
 
+  @Override
+  public String getConformanceLevel() {
+    return "AA";
+  }
+
+  @Override
+  public String getWcagUrl() {
+    return "https://www.w3.org/TR/WCAG21/#consistent-identification";
+  }
+
   /**
    * Checks to see if the view's {@code contentDescription} contains any of the localized words
    * indicated by {@code wordKeys}. If found, a WARNING is added to {@code results} with the

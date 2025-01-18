@@ -167,6 +167,16 @@ public class ClassNameCheck extends AccessibilityHierarchyCheck {
   }
 
   @Override
+  public String getConformanceLevel() {
+    return "AA";
+  }
+
+  @Override
+  public String getWcagUrl() {
+    return "https://www.w3.org/TR/WCAG21/#consistent-identification";
+  }
+
+  @Override
   public String getMessageForResultData(
       Locale locale, int resultId, @Nullable ResultMetadata metadata) {
     switch (resultId) {

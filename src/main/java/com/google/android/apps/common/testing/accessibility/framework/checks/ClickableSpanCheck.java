@@ -128,6 +128,16 @@ public class ClickableSpanCheck extends AccessibilityHierarchyCheck {
   }
 
   @Override
+  public String getConformanceLevel() {
+    return "AAA";
+  }
+
+  @Override
+  public String getWcagUrl() {
+    return "https://www.w3.org/TR/WCAG21/#link-purpose-link-only";
+  }
+
+  @Override
   public String getMessageForResultData(
       Locale locale, int resultId, @Nullable ResultMetadata metadata) {
     return generateMessageForResult(locale, resultId);

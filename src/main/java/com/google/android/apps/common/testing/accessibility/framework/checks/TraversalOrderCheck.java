@@ -131,6 +131,16 @@ public class TraversalOrderCheck extends AccessibilityHierarchyCheck {
   }
 
   @Override
+  public String getConformanceLevel() {
+    return "A";
+  }
+
+  @Override
+  public String getWcagUrl() {
+    return "https://www.w3.org/TR/WCAG21/#focus-order";
+  }
+
+  @Override
   public String getMessageForResultData(
       Locale locale, int resultId, @Nullable ResultMetadata metadata) {
     return generateMessageForResultId(locale, resultId);

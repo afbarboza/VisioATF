@@ -373,6 +373,16 @@ public class ImageContrastCheck extends AccessibilityHierarchyCheck {
   }
 
   @Override
+  public String getConformanceLevel() {
+    return "AA";
+  }
+
+  @Override
+  public String getWcagUrl() {
+    return "https://www.w3.org/TR/WCAG21/#non-text-contrast";
+  }
+
+  @Override
   public String getTitleMessage(Locale locale) {
     return StringManager.getString(locale, "check_title_image_contrast");
   }

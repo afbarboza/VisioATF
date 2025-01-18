@@ -122,6 +122,16 @@ public class SpeakableTextPresentCheck extends AccessibilityHierarchyCheck {
   }
 
   @Override
+  public String getConformanceLevel() {
+    return "A";
+  }
+
+  @Override
+  public String getWcagUrl() {
+    return "https://www.w3.org/TR/WCAG22/#label-in-name";
+  }
+
+  @Override
   public String getMessageForResultData(
       Locale locale, int resultId, @Nullable ResultMetadata metadata) {
     return generateMessageForResultId(locale, resultId);

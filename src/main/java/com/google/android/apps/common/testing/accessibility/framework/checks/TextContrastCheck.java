@@ -407,6 +407,16 @@ public class TextContrastCheck extends AccessibilityHierarchyCheck {
   }
 
   @Override
+  public String getConformanceLevel() {
+    return "AA";
+  }
+
+  @Override
+  public String getWcagUrl() {
+    return "https://www.w3.org/TR/WCAG21/#contrast-minimum";
+  }
+
+  @Override
   public String getTitleMessage(Locale locale) {
     return StringManager.getString(locale, "check_title_text_contrast");
   }

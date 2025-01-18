@@ -202,6 +202,16 @@ public class DuplicateSpeakableTextCheck extends AccessibilityHierarchyCheck {
   }
 
   @Override
+  public String getConformanceLevel() {
+    return "A";
+  }
+
+  @Override
+  public String getWcagUrl() {
+    return "https://www.w3.org/TR/WCAG21/#meaningful-sequence";
+  }
+
+  @Override
   public String getTitleMessage(Locale locale) {
     return StringManager.getString(locale, "check_title_duplicate_speakable_text");
   }
