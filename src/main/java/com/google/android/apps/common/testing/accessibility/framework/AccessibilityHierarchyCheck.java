@@ -220,4 +220,22 @@ public abstract class AccessibilityHierarchyCheck extends AccessibilityCheck {
   public String toStringDescription() {
     return getClass().getSimpleName();
   }
+
+  /**
+   * Determines the conformance level (as defined by WCAG) of this accessibility check.
+   * This allows developers to sort those checks by its inherent priority.
+   *
+   * @return  A, the minimum level of conformance (higher priority)
+   *          AA, this check satisfies all the the level A, but not AA (medium priority)
+   *          AAA, this check satisfies all the the level A and AA, but not AAA (lower priotity)
+   *
+   * @see <a href="https://www.w3.org/TR/WCAG21/#cc1">WCAG Conformance Level</a>
+   */
+  public abstract String getConformanceLevel();
+
+  /**
+   * Gets the WCAG webpage documentation about the success criteria
+   *
+   */
+  public abstract String getWcagUrl();
 }
