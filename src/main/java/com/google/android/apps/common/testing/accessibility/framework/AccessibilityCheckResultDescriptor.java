@@ -46,17 +46,6 @@ public class AccessibilityCheckResultDescriptor {
       message.append(": ");
     }
     message.append(result.getMessage(Locale.ENGLISH));
-    Class<? extends AccessibilityCheck> checkClass = result.getSourceCheckClass();
-    if (checkClass != null) {
-      message.append(" Reported by ");
-      message.append(result.getSourceCheckClass().getName());
-      if (result instanceof AccessibilityHierarchyCheckResult) {
-        String helpUrl = ((AccessibilityHierarchyCheckResult) result).getHelpUrl();
-        if (helpUrl != null) {
-          message.append(". Learn more at ").append(helpUrl);
-        }
-      }
-    }
     return message.toString();
   }
 
