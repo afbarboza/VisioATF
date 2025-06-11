@@ -22,7 +22,7 @@ public class VisioAuxLogReport {
         this.reports.add(violationModel);
     }
 
-    public ArrayList<ViolationModel> getReports() {
+    public synchronized ArrayList<ViolationModel> getReports() {
         return this.reports;
     }
 

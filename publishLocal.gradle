@@ -10,7 +10,7 @@ project.afterEvaluate {
 
         def groupId = 'org.usp.barboza.visioaux'
         def artifactId = 'visio-atf'
-        def versionName = "0.0.4"
+        def versionName = "0.0.1"
         def debugSuffix = "-debug"
         def releaseSuffix = "-release"
         publishing {
