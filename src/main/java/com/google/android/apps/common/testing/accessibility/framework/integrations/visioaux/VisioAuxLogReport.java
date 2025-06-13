@@ -5,9 +5,11 @@ import java.util.ArrayList;
 public class VisioAuxLogReport {
     private static VisioAuxLogReport instance = null;
     private ArrayList<ViolationModel> reports;
+    private Object mutex;
 
     private VisioAuxLogReport() {
         reports = new ArrayList<>();
+        mutex = new Object();
     }
 
     public static VisioAuxLogReport getInstance() {
@@ -19,11 +21,15 @@ public class VisioAuxLogReport {
     }
 
     protected void addReport(ViolationModel violationModel) {
-        this.reports.add(violationModel);
+        synchronized (mutex) {
+            this.reports.add(violationModel);
+        }
     }
 
-    public synchronized ArrayList<ViolationModel> getReports() {
-        return this.reports;
+    public ArrayList<ViolationModel> getReports() {
+        synchronized (mutex) {
+            return this.reports;
+        }
     }
 
     public void clearAllReports() {

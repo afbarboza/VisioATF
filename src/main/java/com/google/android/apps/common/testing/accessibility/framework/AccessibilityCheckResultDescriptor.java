@@ -70,7 +70,11 @@ public class AccessibilityCheckResultDescriptor {
         message.append("with no valid resource name");
       }
     } else {
-      message.append("View with no valid resource name");
+      if (view != null) {
+        message.append(handleUndefinedViewDescriptor(view));
+      } else {
+        message.append("with no valid resource name");
+      }
     }
     return message.toString();
   }
@@ -102,5 +106,47 @@ public class AccessibilityCheckResultDescriptor {
     }
     return message.toString();
   }
-}
 
+  /**
+   *  When the resource descriptor is null, the default fallback is to
+   *  return the descriptor as "View with no valid resource name" even when
+   *  the View is not null. To report accessibility violations , this is
+   *  misleading since may be confused with other identified violations
+   *  that also do not have an appropriate descriptor.
+   *
+   *  As fallback, we are using the coordinates in (X0, Y0)(X1, Y1) as
+   *  a descriptor, inspired by what is currently done by Accessibility Scanner.
+   *  X0 represents the x-coordinate of top left
+   *  Y0 represents the y-coordinate of top left
+   *  X1 represents the x-coordinate of bottom right
+   *  Y1 represents the y-coordinate of bottom right
+   *
+   * @param view the {@link View} to describe
+   * @return a String description of format (X0, Y0)(X1, Y1) of the given {@link View}
+   * using its position on screen
+   */
+  private String handleUndefinedViewDescriptor(View view) {
+    int[] viewCoordinates = new int[2];
+    view.getLocationOnScreen(viewCoordinates);
+
+    int viewCoordinatesX0 = viewCoordinates[0];
+    int viewCoordinatesY0 = viewCoordinates[1];
+
+    int viewCoordinatesX1 = viewCoordinatesX0 + view.getWidth();
+    int viewCoordinatesY1 = viewCoordinatesY0 + view.getHeight();
+
+    StringBuilder pseudoIdentifier = new StringBuilder();
+
+    pseudoIdentifier.append("[");
+    pseudoIdentifier.append(viewCoordinatesX0);
+    pseudoIdentifier.append(", ");
+    pseudoIdentifier.append(viewCoordinatesY0);
+    pseudoIdentifier.append("][");
+    pseudoIdentifier.append(viewCoordinatesX1);
+    pseudoIdentifier.append(", ");
+    pseudoIdentifier.append(viewCoordinatesY1);
+    pseudoIdentifier.append("]");
+
+    return pseudoIdentifier.toString();
+  }
+}
