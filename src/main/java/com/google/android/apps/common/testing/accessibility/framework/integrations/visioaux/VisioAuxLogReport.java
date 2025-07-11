@@ -28,11 +28,13 @@ public class VisioAuxLogReport {
 
     public ArrayList<ViolationModel> getReports() {
         synchronized (mutex) {
-            return this.reports;
+            return new ArrayList<ViolationModel>(this.reports);
         }
     }
 
     public void clearAllReports() {
-        reports.clear();
+        synchronized (mutex) {
+            reports.clear();
+        }
     }
 }
